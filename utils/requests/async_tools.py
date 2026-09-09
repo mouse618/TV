@@ -71,7 +71,12 @@ async def fetch_first(
             else:
                 print(message, flush=True)
     if last_error:
-        raise Exception(t("msg.failed_retry_max").format(name=name)) from last_error
+        cause = type(last_error).__name__
+        detail = str(last_error).strip()
+        error = f"{cause}: {detail}" if detail else cause
+        raise Exception(
+            f"{t('msg.failed_retry_max').format(name=name)}: {error}"
+        ) from last_error
     return b"" if as_bytes else ""
 
 
