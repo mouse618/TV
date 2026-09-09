@@ -87,10 +87,9 @@ async def check_ipv6_support_async(reporter=None):
     else:
         print(t("msg.check_ipv6_support"))
     try:
-        async with ClientSession(trust_env=True) as session:
+        async with ClientSession(trust_env=False) as session:
             async with session.get(
                     url,
-                    proxy=config.http_proxy or None,
                     ssl=SSL_CONTEXT,
                     timeout=ClientTimeout(total=10),
             ) as response:
